@@ -141,7 +141,7 @@ async def main():
                 failed += 1
             
             if index < total_questions:
-                await countdown_next_questions(30)  # Tunggu sebelum pertanyaan berikutnya
+                await countdown_next_questions(50)  # Tunggu sebelum pertanyaan berikutnya
         
         print(f"{Fore.LIGHTBLUE_EX}🎯 Session {Fore.LIGHTWHITE_EX}{cycle} {Fore.LIGHTBLUE_EX}completed!")
         print(f"{Fore.LIGHTGREEN_EX}✅ Successfully answered: {Fore.LIGHTWHITE_EX}{answered}")
