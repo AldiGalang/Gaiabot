@@ -43,10 +43,6 @@ URLS = [domain_input]
 
 print(f"{Fore.LIGHTCYAN_EX}📌 Using domain: {Fore.LIGHTWHITE_EX}{domain_input}")
 
-# Menampilkan domain dan ID yang dipilih oleh pengguna
-print(f"{Fore.LIGHTCYAN_EX}🌍 Selected Domain: {Fore.LIGHTWHITE_EX}{URLS[0]}")
-print(f"{Fore.LIGHTWHITE_EX}=" * 50)
-
 class ChatBot:
     def __init__(self):
         self.api_key_index = 0
@@ -141,7 +137,7 @@ async def main():
                 failed += 1
             
             if index < total_questions:
-                await countdown_next_questions(50)  # Tunggu sebelum pertanyaan berikutnya
+                await countdown_next_questions(5)  # Tunggu sebelum pertanyaan berikutnya
         
         print(f"{Fore.LIGHTBLUE_EX}🎯 Session {Fore.LIGHTWHITE_EX}{cycle} {Fore.LIGHTBLUE_EX}completed!")
         print(f"{Fore.LIGHTGREEN_EX}✅ Successfully answered: {Fore.LIGHTWHITE_EX}{answered}")
