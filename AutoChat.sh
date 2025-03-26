@@ -70,24 +70,6 @@ if [[ ${#folders[@]} -eq 0 ]]; then
     exit 1
 fi
 
-echo "📂 Ditemukan ${#folders[@]} folder gaiabot-*. Membuat screen dan menjalankan setup..."
+echo "📂 Ditemukan ${#folders[@]} folder gaiabot-* menjalankan setup..."
 
-# Loop untuk membuat screen berdasarkan jumlah folder
-for folder in "${folders[@]}"; do
-    screen_name=$(basename "$folder")  # Gunakan nama folder saja, tanpa path
-    echo "🚀 Membuat screen $screen_name dan menjalankan bot.py..."
 
-    screen -dmS "$screen_name" bash -c "
-        cd $folder &&
-        sudo apt update &&
-        sudo apt install -y python3 &&
-        sudo apt install -y python3.12-venv &&
-        python3 -m venv myenv &&
-        source myenv/bin/activate &&
-        pip install -r requirements.txt &&
-        python3 bot.py &&
-        exec bash
-    "
-done
-
-echo "✅ Semua screen telah dibuat, proses instalasi selesai, dan bot.py sedang berjalan di masing-masing screen!"
