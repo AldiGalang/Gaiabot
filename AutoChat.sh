@@ -21,55 +21,53 @@ done
 
 echo "✅ Semua repo telah berhasil di-clone!"
 
-# File input yang berisi API keys
-input_file="../nama.txt"
+# File input yang berisi API keys dan proxy
+api_key_file="../nama.txt"
+proxy_file="../proxy.txt"
 
-# Pastikan file nama.txt ada
-if [[ ! -f "$input_file" ]]; then
-    echo "❌ File $input_file tidak ditemukan!"
+# Pastikan file nama.txt dan proxy.txt ada
+if [[ ! -f "$api_key_file" ]]; then
+    echo "❌ File $api_key_file tidak ditemukan!"
+    exit 1
+fi
+if [[ ! -f "$proxy_file" ]]; then
+    echo "❌ File $proxy_file tidak ditemukan!"
     exit 1
 fi
 
 # Baca semua folder gaiabot-* dalam array
 folders=(gaiabot-*)
 
-# Hitung jumlah folder & jumlah baris dalam nama.txt
+# Hitung jumlah folder & jumlah baris dalam file
 folder_count=${#folders[@]}
-line_count=$(wc -l < "$input_file")
+api_key_count=$(wc -l < "$api_key_file")
+proxy_count=$(wc -l < "$proxy_file")
 
 # Pastikan jumlah baris cukup untuk jumlah folder
-if [[ "$line_count" -lt "$folder_count" ]]; then
-    echo "❌ Jumlah baris di $input_file kurang dari jumlah folder gaiabot-*!"
+if [[ "$api_key_count" -lt "$folder_count" ]]; then
+    echo "❌ Jumlah baris di $api_key_file kurang dari jumlah folder gaiabot-*"
+    exit 1
+fi
+if [[ "$proxy_count" -lt "$folder_count" ]]; then
+    echo "❌ Jumlah baris di $proxy_file kurang dari jumlah folder gaiabot-*"
     exit 1
 fi
 
-echo "📂 Memasukkan API keys dari $input_file ke masing-masing folder gaiabot-*/file_api_keys.txt..."
+echo "📂 Memasukkan API keys dan Proxy ke masing-masing folder gaiabot-*/"
 
 # Loop untuk memasukkan setiap baris ke folder yang sesuai
 index=0
-while IFS= read -r line; do
+while IFS= read -r api_key && IFS= read -r proxy <&3; do
     folder="${folders[$index]}"
     if [[ -d "$folder" ]]; then
-        echo "$line" > "$folder/file_api_keys.txt"
-        echo "✅ Baris ke-$((index+1)) dimasukkan ke $folder/file_api_keys.txt"
+        echo "$api_key" > "$folder/file_api_keys.txt"
+        echo "$proxy" > "$folder/proxy.txt"
+        echo "✅ API Key & Proxy dimasukkan ke $folder"
     fi
     ((index++))
     if [[ $index -ge $folder_count ]]; then
         break
     fi
-done < "$input_file"
+done < "$api_key_file" 3< "$proxy_file"
 
-echo "✅ Semua API keys telah dimasukkan ke masing-masing folder gaiabot-*/file_api_keys.txt!"
-
-# Hitung ulang jumlah folder
-folders=(gaiabot-*)
-
-# Jika tidak ada folder gaiabot-*, hentikan skrip
-if [[ ${#folders[@]} -eq 0 ]]; then
-    echo "❌ Tidak ada folder gaiabot-* ditemukan!"
-    exit 1
-fi
-
-echo "📂 Ditemukan ${#folders[@]} folder gaiabot-* menjalankan setup..."
-
-
+echo "✅ Semua API keys dan Proxy telah dimasukkan ke masing-masing folder gaiabot-*"
