@@ -1,4 +1,5 @@
 import aiohttp, asyncio, random
+from aiohttp_socks import ProxyConnector
 from colorama import init, Fore
 
 init(autoreset=True)
@@ -77,7 +78,8 @@ class ChatBot:
                 "Authorization": f"Bearer {api_key}",
             }
 
-            connector = aiohttp.ProxyConnector(proxy=f"http://{proxy}")
+            # Gunakan ProxyConnector dari aiohttp_socks
+            connector = ProxyConnector.from_url(f"http://{proxy}")
             
             async with aiohttp.ClientSession(connector=connector) as session:
                 try:
