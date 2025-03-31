@@ -87,7 +87,7 @@ class ChatBot:
                         answer = result["choices"][0]["message"]["content"]
                         
                         print(f"{Fore.LIGHTCYAN_EX}🌍 Base URL : {base_url}")
-                        print(f"{Fore.LIGHTYELLOW_EX}🔑 API Key  : {api_key[:10]}*****")
+                        print(f"{Fore.LIGHTYELLOW_EX}🔑 API Key  : {api_key}")
                         print(f"{Fore.LIGHTMAGENTA_EX}🔗 Proxy    : {proxy}")
                         print(f"{Fore.LIGHTGREEN_EX}💬 Answer   : {answer}")
                         print(f"{Fore.LIGHTWHITE_EX}=" * 50)
