@@ -33,7 +33,7 @@ def load_questions(file_path):
 
 # Memuat data dari file
 API_KEYS = load_api_keys("file_api_keys.txt")
-PROXIES = load_proxies("proxy.txt")
+PROXIES = load_proxies("proxy.txt")  # Proxy format: user:pass@host:port
 QUESTIONS = load_questions("file_questions.txt")
 
 domain_input = "optimize.gaia.domains"
@@ -55,7 +55,7 @@ class ChatBot:
         return api_key
     
     def get_next_proxy(self):
-        proxy = PROXIES[self.proxy_index]
+        proxy = PROXIES[self.proxy_index]  # Format user:pass@host:port
         self.proxy_index = (self.proxy_index + 1) % len(PROXIES)
         return proxy
 
@@ -78,8 +78,9 @@ class ChatBot:
                 "Authorization": f"Bearer {api_key}",
             }
 
-            # Gunakan ProxyConnector dari aiohttp_socks
-            connector = ProxyConnector.from_url(f"http://{proxy}")
+            # Gunakan ProxyConnector dengan autentikasi user:pass@host:port
+            proxy_url = f"http://{proxy}"  # Pastikan format proxy benar
+            connector = ProxyConnector.from_url(proxy_url)
             
             async with aiohttp.ClientSession(connector=connector) as session:
                 try:
