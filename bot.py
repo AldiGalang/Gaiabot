@@ -78,8 +78,7 @@ class ChatBot:
                 "Authorization": f"Bearer {api_key}",
             }
 
-            # Gunakan ProxyConnector dengan autentikasi user:pass@host:port
-            proxy_url = f"http://{proxy}"  # Pastikan format proxy benar
+            proxy_url = f"http://{proxy}"
             connector = ProxyConnector.from_url(proxy_url)
             
             async with aiohttp.ClientSession(connector=connector) as session:
@@ -89,10 +88,12 @@ class ChatBot:
                         result = await response.json()
                         answer = result["choices"][0]["message"]["content"]
                         
+                        word_count = len(answer.split())  # Hitung jumlah kata
+                        
                         print(f"{Fore.LIGHTCYAN_EX}🌍 Base URL : {base_url}")
                         print(f"{Fore.LIGHTYELLOW_EX}🔑 API Key  : {api_key}")
                         print(f"{Fore.LIGHTMAGENTA_EX}🔗 Proxy    : {proxy}")
-                        print(f"{Fore.LIGHTGREEN_EX}💬 Answer   : {answer}")
+                        print(f"{Fore.LIGHTGREEN_EX}📝 Answer   : {Fore.LIGHTWHITE_EX}[ {Fore.LIGHTBLUE_EX}{word_count}{Fore.LIGHTWHITE_EX} words ] 🖋️")
                         print(f"{Fore.LIGHTWHITE_EX}=" * 50)
                         
                         return answer
